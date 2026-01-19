@@ -46,5 +46,5 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 # Ignorar claves de Firebase
-firebase_options.dart
+lib/firebase_options.dart
 firebase.json

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "421854311043",
+    "project_id": "app-chat-colaborativo",
+    "storage_bucket": "app-chat-colaborativo.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:421854311043:android:c740fa7eac91432dc761b6",
+        "android_client_info": {
+          "package_name": "com.fronted.flutter_chat_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdghNHdvev5vBA5yLqHAKn_ZJKA_V6i0Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

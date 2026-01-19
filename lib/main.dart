@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_app/screen/firebase_options.dart';
+import 'package:flutter_chat_app/screen/encuesta_screen.dart';
+import '../firebase_options.dart';
 import 'package:flutter_chat_app/screen/user_list.dart';
 
 
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
 
       debugShowCheckedModeBanner: false,
-      home: UsersList(),
+      home: EncuestaScreen(),
 
     );
   }
