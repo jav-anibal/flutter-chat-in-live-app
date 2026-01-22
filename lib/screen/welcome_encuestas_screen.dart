@@ -8,30 +8,33 @@ class WelcomeEncuestasScreen extends StatefulWidget {
 }
 
 class _WelcomeEncuestasScreenState extends State<WelcomeEncuestasScreen> {
+  final List<String> categorias = [
+    "LENGUAJES",
+    "COLORES",
+    "COMIDA",
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(centerTitle: true, title: Text("ENCUESTAS")),
 
-      body: Column(
-        children: [
-          Container(
-            width: 300,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-
-                IconButton(
-                  icon: Icon(Icons.arrow_back),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/encuesta');
-                  },
-                ),
-                Text("LENGUAJES", style: TextStyle(fontSize: 16)),
-              ],
-            ),
-          ),
-        ],
+      body: ListView.builder(
+        itemCount: categorias.length,
+        itemBuilder: (context, index) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(categorias[index], style: TextStyle(fontSize: 16)),
+              IconButton(
+                icon: Icon(Icons.arrow_forward),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/encuesta');
+                },
+              ),
+            ],
+          );
+        },
       ),
     );
   }
