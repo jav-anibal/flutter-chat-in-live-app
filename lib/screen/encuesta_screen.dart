@@ -10,8 +10,9 @@ class EncuestaScreen extends StatefulWidget {
 }
 
 class _EncuestaScreenState extends State<EncuestaScreen> {
-  final Stream<QuerySnapshot> _encuestaStream =
-      FirebaseFirestore.instance.collection("encuesta").snapshots();
+
+  final Stream<DocumentSnapshot> _encuestaStream =
+      FirebaseFirestore.instance.collection("encuestas").doc("lenguajes").snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class _EncuestaScreenState extends State<EncuestaScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
-        child: StreamBuilder<QuerySnapshot>(
+        child: StreamBuilder<DocumentSnapshot>(
           stream: _encuestaStream,
           builder: (context, snapshot) {
             if (snapshot.hasError) {
@@ -36,27 +37,26 @@ class _EncuestaScreenState extends State<EncuestaScreen> {
               return const Center(child: CircularProgressIndicator());
             }
 
-            // Calcular total de votos
-            int totalVotos = snapshot.data!.docs.fold(
-              0,
-              (sum, doc) => sum + ((doc.data() as Map<String, dynamic>)['votos'] as int? ?? 0),
-            );
+
+            Map<String, dynamic> data =
+                snapshot.data!.data() as Map<String, dynamic>;
+
+            data.remove("total_votos");
+            int totalVotos = data.values.fold(0, (sum, value) => sum + (value as int));
+            List<MapEntry<String, dynamic>> lenguajes = data.entries.toList();
 
             return ListView(
-              children: snapshot.data!.docs.map((document) {
-                Map<String, dynamic> data =
-                    document.data() as Map<String, dynamic>;
-
+              children: lenguajes.map((entry) {
                 return BarraVotacion(
-                  label: data['nombre'] ?? 'Sin nombre',
-                  votos: data['votos'] ?? 0,
+                  label: entry.key,
+                  votos: entry.value as int,
                   total: totalVotos,
                   color: Colors.indigo,
                   onTap: () {
-                    // Incrementar voto en Firestore
-                    document.reference.update({
-                      'votos': FieldValue.increment(1),
-                    });
+                    FirebaseFirestore.instance
+                        .collection("encuestas")
+                        .doc("lenguajes")
+                        .update({entry.key: FieldValue.increment(1)});
                   },
                 );
               }).toList(),
