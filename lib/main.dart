@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/screen/encuesta_screen.dart';
 import 'package:flutter_chat_app/screen/welcome_encuestas_screen.dart';
-
+import 'package:flutter_chat_app/screen/crear_encuesta_screen.dart';
 import 'firebase_options.dart';
 
 
@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/welcome': (context) => const WelcomeEncuestasScreen(),
         '/encuesta': (context) => const EncuestaScreen(),
+        '/crear_encuesta': (context) => const CrearEncuestaScreen(),
       },
 
 

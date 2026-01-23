@@ -11,13 +11,20 @@ class EncuestaScreen extends StatefulWidget {
 
 class _EncuestaScreenState extends State<EncuestaScreen> {
 
-  final Stream<DocumentSnapshot> _encuestaStream =
-      FirebaseFirestore.instance.collection("encuestas").doc("lenguajes").snapshots();
+  // ============================================================
+  // NOTA: Ya NO usamos un Stream fijo aquí
+  // El Stream se crea dinámicamente en build() usando el argumento
+  // ============================================================
 
   @override
   Widget build(BuildContext context) {
 
-    // Creando un stream -> para crearse dinámicamente usando el argumento recibido
+    // ============================================================
+    // CONCEPTO CLAVE: Recibir el ID de la encuesta
+    // ============================================================
+    // Este ID viene de WelcomeEncuestasScreen cuando el usuario
+    // toca una encuesta de la lista
+    // ============================================================
     final String encuestaId = ModalRoute.of(context)!.settings.arguments as String;
 
 
@@ -25,9 +32,13 @@ class _EncuestaScreenState extends State<EncuestaScreen> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.indigo,
-        title: const Text(
-          "GUIA DE LENGUAJES",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        foregroundColor: Colors.white,
+        // ============================================================
+        // Título dinámico: muestra el nombre de la encuesta
+        // ============================================================
+        title: Text(
+          encuestaId.toUpperCase(),
+          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),
       body: Padding(
@@ -65,9 +76,12 @@ class _EncuestaScreenState extends State<EncuestaScreen> {
                   total: totalVotos,
                   color: Colors.indigo,
                   onTap: () {
+                    // ============================================================
+                    // CONCEPTO CLAVE: Usar el ID dinámico para actualizar
+                    // ============================================================
                     FirebaseFirestore.instance
                         .collection("encuestas")
-                        .doc("lenguajes")
+                        .doc(encuestaId)  // <-- Dinámico, no hardcodeado!
                         .update({entry.key: FieldValue.increment(1)});
                   },
                 );

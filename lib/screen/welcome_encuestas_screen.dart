@@ -13,12 +13,6 @@ class _WelcomeEncuestasScreenState extends State<WelcomeEncuestasScreen> {
       .collection("encuestas")
       .snapshots();
 
-  /*
-  final List<String> categorias = [
-    "LENGUAJES",
-    "COLORES",
-    "COMIDA",
-  ];*/
 
   @override
   Widget build(BuildContext context) {
@@ -61,27 +55,14 @@ class _WelcomeEncuestasScreenState extends State<WelcomeEncuestasScreen> {
         },
       ),
 
-      /*Padding(
-        padding: const EdgeInsets.only(left: 25, right: 10),
-
-        child: ListView.builder(
-          itemCount: categorias.length,
-          itemBuilder: (context, index) {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(categorias[index]),
-                IconButton(
-                  icon: Icon(Icons.arrow_forward),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/encuesta');
-                  },
-                ),
-              ],
-            );
-          },
-        ),
-      ),*/
+      // Botón para crear nueva encuesta
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/crear_encuesta');
+        },
+        backgroundColor: Colors.indigo,
+        child: const Icon(Icons.add, color: Colors.white),
+      ),
     );
   }
 }

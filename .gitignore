@@ -34,7 +34,8 @@ migrate_working_dir/
 /coverage/
 .*null
 .null
-
+.docs/**
+.docs
 # Symbolication related
 app.*.symbols
 
