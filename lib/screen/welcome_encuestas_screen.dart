@@ -23,11 +23,11 @@ class _WelcomeEncuestasScreenState extends State<WelcomeEncuestasScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(centerTitle: true, title: Text("ENCUESTAS")),
-
+      appBar: AppBar(centerTitle: true, title: Text("HOME - ENCUESTAS")),
       body: StreamBuilder(
         stream: _encuestaStream,
         builder: (context, snapshot) {
+
           if (snapshot.hasError) {
             return const Center(child: Text('Algo salió mal'));
           }
@@ -37,23 +37,26 @@ class _WelcomeEncuestasScreenState extends State<WelcomeEncuestasScreen> {
 
           final docs = snapshot.data!.docs;
 
-          return ListView.builder(
-            itemCount: docs.length,
-            itemBuilder: (context, index) {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(docs[index].id),
-                  IconButton(
-                    icon: Icon(Icons.arrow_forward),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/encuesta',arguments: docs[index].id);
-                      // recuperar-ID n el builder apuntar al otro arguemnto
-                    },
-                  ),
-                ],
-              );
-            },
+          return Padding(
+            padding: const EdgeInsets.all(30.0),
+            child: ListView.builder(
+              itemCount: docs.length,
+              itemBuilder: (context, index) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(docs[index].id),
+                    IconButton(
+                      icon: Icon(Icons.arrow_forward),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/encuesta',arguments: docs[index].id);
+                        // recuperar-ID n el builder apuntar al otro arguemnto
+                      },
+                    ),
+                  ],
+                );
+              },
+            ),
           );
         },
       ),

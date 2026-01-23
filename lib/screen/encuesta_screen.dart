@@ -16,6 +16,11 @@ class _EncuestaScreenState extends State<EncuestaScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    // Creando un stream -> para crearse dinámicamente usando el argumento recibido
+    final String encuestaId = ModalRoute.of(context)!.settings.arguments as String;
+
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -27,8 +32,15 @@ class _EncuestaScreenState extends State<EncuestaScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
+
+        // Aqui es donde devolvemos pero dinámicamente por el ID
         child: StreamBuilder<DocumentSnapshot>(
-          stream: _encuestaStream,
+          stream: FirebaseFirestore.instance
+            .collection("encuestas")
+            .doc(encuestaId) // -> El id pasando automáticamente
+            .snapshots(),
+
+
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return const Center(child: Text('Algo salió mal'));
