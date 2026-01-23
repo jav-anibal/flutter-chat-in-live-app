@@ -18,13 +18,13 @@ class BarraVotacion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Evitamos división por cero si es el primer voto
+
     double porcentaje = total == 0 ? 0 : votos / total;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: InkWell(
-        onTap: onTap, // Al tocar, vota
+        onTap: onTap,
         borderRadius: BorderRadius.circular(10),
         child: Container(
           padding: EdgeInsets.all(10),
@@ -42,7 +42,7 @@ class BarraVotacion extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 10),
-              // La barra animada
+
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: LinearProgressIndicator(

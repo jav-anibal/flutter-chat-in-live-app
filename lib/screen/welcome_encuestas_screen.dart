@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeEncuestasScreen extends StatefulWidget {
@@ -8,34 +9,76 @@ class WelcomeEncuestasScreen extends StatefulWidget {
 }
 
 class _WelcomeEncuestasScreenState extends State<WelcomeEncuestasScreen> {
+  final Stream<QuerySnapshot> _encuestaStream = FirebaseFirestore.instance
+      .collection("encuestas")
+      .snapshots();
+
+  /*
   final List<String> categorias = [
     "LENGUAJES",
     "COLORES",
     "COMIDA",
-  ];
+  ];*/
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(centerTitle: true, title: Text("ENCUESTAS")),
 
-      body: ListView.builder(
-        itemCount: categorias.length,
-        itemBuilder: (context, index) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(categorias[index], style: TextStyle(fontSize: 16)),
-              IconButton(
-                icon: Icon(Icons.arrow_forward),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/encuesta');
-                },
-              ),
-            ],
+      body: StreamBuilder(
+        stream: _encuestaStream,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return const Center(child: Text('Algo salió mal'));
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          final docs = snapshot.data!.docs;
+
+          return ListView.builder(
+            itemCount: docs.length,
+            itemBuilder: (context, index) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(docs[index].id),
+                  IconButton(
+                    icon: Icon(Icons.arrow_forward),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/encuesta',arguments: docs[index].id);
+                      // recuperar-ID n el builder apuntar al otro arguemnto
+                    },
+                  ),
+                ],
+              );
+            },
           );
         },
       ),
+
+      /*Padding(
+        padding: const EdgeInsets.only(left: 25, right: 10),
+
+        child: ListView.builder(
+          itemCount: categorias.length,
+          itemBuilder: (context, index) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(categorias[index]),
+                IconButton(
+                  icon: Icon(Icons.arrow_forward),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/encuesta');
+                  },
+                ),
+              ],
+            );
+          },
+        ),
+      ),*/
     );
   }
 }
